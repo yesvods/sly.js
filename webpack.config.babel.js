@@ -18,7 +18,7 @@ module.exports = {
       'node_modules',
     ]
   },
-  devtool: "cheap-module-eval-source-map",
+  devtool: "eval",
   module: {
     loaders: [
       {

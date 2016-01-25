@@ -66,18 +66,21 @@ class Main extends Component {
     const {mockData, editor} = this.state;
     return (
 <div className={style.container}>
-  <table className="ui celled table">
+  <table className="ui table">
     <thead>
-      <tr><th>MockPath</th>
-      <th>Data</th>
-      <th>Operation</th>
+      <tr ><th>MockPath</th>
+      <th >Data</th>
+      <th >Operation</th>
     </tr></thead>
     <tbody>
   {mockData.map((data, index) => {
     return (
       <tr key={index}>
         <td>{data.jsonServerPathKey}</td>
-        <td>{JSON.stringify(data.data, 2)}</td>
+        <td
+          style={{
+            wordBreak: "break-all",
+          }}>{JSON.stringify(data.data, 2)}</td>
         <td>
           <button 
             className="ui red button"
@@ -103,7 +106,7 @@ class Main extends Component {
             const mockData = editor.getSession().getValue();
             let data = JSON.parse(mockData);
             console.log(data)
-            if(!_.isPlainObject(data)){
+            if(!_.isPlainObject(data) && !_.isArray(data)){
               alert('failure json format');
               return false;
             }
