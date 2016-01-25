@@ -3,6 +3,7 @@ import koa from 'koa';
 import convert from 'koa-convert';
 import bodyParser from 'koa-bodyparser';
 import koaStatic from 'koa-static';
+import cors from 'koa-cors';
 import _ from 'lodash';
 import path from 'path';
 
@@ -10,6 +11,7 @@ import mock from './lib/middlewares/mock';
 import api from './lib/middlewares/api';
 
 const app = new koa();
+app.use(convert(cors()));
 app.use(async (ctx, next) => {
   let start = _.now();
   await next();
@@ -24,4 +26,4 @@ app.use(convert(bodyParser()));
 app.use(mock);
 app.use(api);
 
-app.listen(3000);
+app.listen(3003);
