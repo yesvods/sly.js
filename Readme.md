@@ -18,7 +18,7 @@ Build your mock server within **1 minute**, Powered by [KOA@2.0Alpha](https://gi
 > npm install && node index.js //that's all
 ```
 
-And then open `http://localhost:80` in your browser
+And then open `http://localhost:3003` in your browser
 
 ## Example
 
@@ -32,7 +32,7 @@ And then open `http://localhost:80` in your browser
   "name": "jack"
 }
 
-//http://localhost:80/people/jack
+//http://localhost:3003/people/jack
 //output: "jack"
 ```
 
@@ -48,7 +48,7 @@ And then open `http://localhost:80` in your browser
   "name": "people - ${name}"
 }
 
-//http://localhost:80/people/jack
+//http://localhost:3003/people/jack
 //output: "people - jack"
 ```
 
@@ -64,7 +64,7 @@ You can utilize all the param variable in mock data, `Mock` and `Faker` alse pro
   "age": "${Mock.mock('@natural(60, 100)')}"
 }
 
-//http://localhost:80/people/jack
+//http://localhost:3003/people/jack
 //output: 
 //  {
 //    "name": "people - Marshall Pfannerstill",
