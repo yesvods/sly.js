@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 const {Component} = React;
 
-const baseUrl = 'http://localhost:3000';
+const baseUrl = '';
 class Main extends Component {
   constructor(){
     super();
