@@ -1,0 +1,8 @@
+#!/bin/bash
+
+APP="/opt/json-server"
+SCRIPT="$APP/index.js"
+PID="/var/run/json-server.pid"
+LOG="$APP/log/json-server.log"
+
+forever -p $APP --pidFile $PID -l $LOG -a -d $SCRIPT

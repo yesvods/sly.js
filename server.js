@@ -16,7 +16,7 @@ app.use(async (ctx, next) => {
   let start = _.now();
   await next();
   const ms = _.now() - start;
-  console.log('%s %s - %s', ctx.method, ctx.url, ms);
+  console.log('%s: %s %s - %s', start, ctx.method, ctx.url, ms);
 })
 
 const staticPath = path.resolve(__dirname, './lib/client');
