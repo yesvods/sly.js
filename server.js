@@ -6,6 +6,7 @@ import koaStatic from 'koa-static';
 import cors from 'koa-cors';
 import _ from 'lodash';
 import path from 'path';
+import moment from 'moment-timezone';
 
 import mock from './lib/middlewares/mock';
 import api from './lib/middlewares/api';
@@ -16,10 +17,11 @@ app.use(async (ctx, next) => {
   let start = _.now();
   await next();
   const ms = _.now() - start;
-  console.log('%s %s - %s', ctx.method, ctx.url, ms);
+  console.log('%s: %s %s - %s', moment(start).tz("Asia/Shanghai").format("YYYY-M-D H:mm:ss"), ctx.method, ctx.url, ms);
 })
 
 const staticPath = path.resolve(__dirname, './lib/client');
+
 app.use(convert(koaStatic(staticPath)));
 app.use(convert(bodyParser()));
 

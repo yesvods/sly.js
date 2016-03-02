@@ -3,6 +3,14 @@ import ReactDOM from 'react-dom';
 import style from './index.css';
 import _ from 'lodash';
 
+import 'script!./static/jquery.js';
+import 'script!./static/ace.js';
+import 'script!./static/semantic.min.js';
+
+import 'script!./static/mode-json';
+import 'script!./static/theme-monokai';
+
+
 const {Component} = React;
 
 const baseUrl = '';
@@ -62,33 +70,93 @@ class Main extends Component {
       console.log('failure', err);
     })
   }
+  /**
+   * 查看数据详情
+   */
+  checkData(e,data){
+    const $modal = $(this.refs.showdetail);
+    $modal.find('.ui.header').text(window.location.origin + data.jsonServerPathKey);
+    $modal.find('.context pre').text(JSON.stringify(data.data, null, 4));
+    $modal.modal('show');
+  }
+  /**
+   * 显示编辑界面
+   */
+  showUpdate(e, data){
+    const $modal = $(this.refs.modal);
+    const {editor} = this.state;
+    editor.setValue(JSON.stringify(data.data,null,2));
+    $modal.find('[name="path"]').val(data.jsonServerPathKey).attr('disabled','true');
+    $modal.find('.ui.button').text('提交修改');
+    $modal
+      .modal('setting',{
+        onApprove: () => {
+          const path = this.refs.path.value;
+          const mockData = editor.getSession().getValue();
+          let data = JSON.parse(mockData);
+          console.log(data)
+
+          if(!_.isPlainObject(data) && !_.isArray(data)){
+            alert('failure json format');
+            return false;
+          }
+
+          data = {
+            jsonServerPathKey: path,
+            data,
+          }
+
+          this.saveData.call(this, data);
+        }
+      })
+      .modal('show');
+  }
+  /**
+   * 保存数据
+   */
+  saveData(data){
+    const _this = this;
+    fetch(`${baseUrl}/mock/update`, {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(x => {
+      _this.fetchData.call(_this);
+    }).catch(err => {
+      console.log('failure', err);
+    })
+  }
   render(){
     const {mockData, editor} = this.state;
     return (
 <div className={style.container}>
   <table className="ui table">
     <thead>
-      <tr ><th>MockPath</th>
-      <th >Data</th>
-      <th >Operation</th>
+      <tr ><th>访问地址</th>
+      <th >数据</th>
+      <th >操作</th>
     </tr></thead>
     <tbody>
   {mockData.map((data, index) => {
     return (
       <tr key={index}>
-        <td>{data.jsonServerPathKey}</td>
+        <td><span style={{color: '#CECECE'}}>{window.location.origin}</span>{data.jsonServerPathKey}</td>
         <td
           style={{
             wordBreak: "break-all",
-          }}>{JSON.stringify(data.data, 2)}</td>
+          }}><button className="ui button" onClick={e=>this.checkData(e, data)}>查看详情</button></td>
         <td>
+          <button className="ui blue button" onClick={e => this.showUpdate(e, data)}>编辑</button>
           <button 
             className="ui red button"
             onClick={e => {
               console.log(data.id)
               this.removeById.call(this, data.id);
             }}
-            >Remove
+            >删除
           </button>
         </td>
       </tr>
@@ -118,6 +186,7 @@ class Main extends Component {
           }
         })
         .modal('show');
+        $(this.refs.modal).find('.ui.button').text('确定添加');
       editor.getSession().setValue("");
       // this.add.call(this, {
       //   "jsonServerPathKey": "/api/company/:name",
@@ -126,7 +195,7 @@ class Main extends Component {
       //   }
       // })
     }}
-    >Add
+    >新增
   </button>
 <div className="ui modal fullscreen" ref="modal">
   <div className="content">
@@ -138,10 +207,22 @@ class Main extends Component {
     </div>
   </div>
   <div className="actions">
+    <div className="ui positive right button">
+      确定添加
+    </div>
+  </div>
+</div>
+<div className="ui modal" ref="showdetail">
+  <div className="content">
+    <h3 className="ui header"></h3>
+    <div className="context">
+      <pre></pre>
+    </div>
+  </div>
+  <div className="actions">
     <div 
-      className="ui positive right labeled icon button">
-      Add
-      <i className="checkmark icon"></i>
+      className="ui positive right blue button">
+      关闭
     </div>
   </div>
 </div>
