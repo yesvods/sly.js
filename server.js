@@ -12,7 +12,7 @@ import mock from './lib/middlewares/mock';
 import api from './lib/middlewares/api';
 
 const app = new koa();
-// app.use(convert(cors()));
+app.use(convert(cors()));
 app.use(async (ctx, next) => {
   let start = _.now();
   await next();
