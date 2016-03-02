@@ -3,6 +3,14 @@ import ReactDOM from 'react-dom';
 import style from './index.css';
 import _ from 'lodash';
 
+import 'script!./static/jquery.js';
+import 'script!./static/ace.js';
+import 'script!./static/semantic.min.js';
+
+import 'script!./static/mode-json';
+import 'script!./static/theme-monokai';
+
+
 const {Component} = React;
 
 const baseUrl = '';
@@ -62,6 +70,12 @@ class Main extends Component {
       console.log('failure', err);
     })
   }
+  checkData(e,data){
+    const $modal = $(this.refs.showdetail);
+    $modal.find('.ui.header').text(window.location.origin + data.jsonServerPathKey);
+    $modal.find('.context pre').text(JSON.stringify(data.data, null, 4));
+    $modal.modal('show');
+  }
   render(){
     const {mockData, editor} = this.state;
     return (
@@ -80,7 +94,7 @@ class Main extends Component {
         <td
           style={{
             wordBreak: "break-all",
-          }}>{JSON.stringify(data.data, 2)}</td>
+          }}><button className="ui button" onClick={e=>this.checkData(e, data)}>查看详情</button></td>
         <td>
           <button 
             className="ui red button"
@@ -141,6 +155,21 @@ class Main extends Component {
     <div 
       className="ui positive right labeled icon button">
       Add
+      <i className="checkmark icon"></i>
+    </div>
+  </div>
+</div>
+<div className="ui modal" ref="showdetail">
+  <div className="content">
+    <h3 className="ui header"></h3>
+    <div className="context">
+      <pre></pre>
+    </div>
+  </div>
+  <div className="actions">
+    <div 
+      className="ui positive right labeled icon button">
+      关闭
       <i className="checkmark icon"></i>
     </div>
   </div>

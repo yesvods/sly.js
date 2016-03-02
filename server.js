@@ -12,7 +12,7 @@ import mock from './lib/middlewares/mock';
 import api from './lib/middlewares/api';
 
 const app = new koa();
-app.use(convert(cors()));
+// app.use(convert(cors()));
 app.use(async (ctx, next) => {
   let start = _.now();
   await next();
@@ -21,6 +21,7 @@ app.use(async (ctx, next) => {
 })
 
 const staticPath = path.resolve(__dirname, './lib/client');
+
 app.use(convert(koaStatic(staticPath)));
 app.use(convert(bodyParser()));
 
