@@ -1,5 +1,7 @@
 FROM node:latest
 MAINTAINER Firef0x
+ENV PORT 3003
+ENV REFRESHED_AT 20160302161900
 
 RUN cd /opt \
  && git clone https://github.com/Firef0x/json-server.git \
