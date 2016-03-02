@@ -7,7 +7,7 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Joigs",
+  "author": "Jogis",
   "license": "MIT",
   "dependencies": {
     "babel-polyfill": "^6.3.14",
@@ -23,6 +23,7 @@
     "lodash": "^4.0.0",
     "lowdb": "^0.12.1",
     "mockjs": "^1.0.0",
+    "moment-timezone": "^0.5.1",
     "node-uuid": "^1.4.7",
     "route-parser": "0.0.4"
   },
